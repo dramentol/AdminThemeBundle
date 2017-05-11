@@ -36,7 +36,8 @@ class ScriptHandler {
      */
     private static $options = array(
         'symfony-app-dir' => 'app',
-        'symfony-web-dir' => 'web'
+        'symfony-web-dir' => 'web',
+        'fetch-theme-vendors-as-root' => true
     );
 
 
@@ -136,7 +137,13 @@ class ScriptHandler {
             return;
         }
 
-        static::executeCommand($event, $consoleDir, 'avanzu:admin:fetch-vendor --root', $options['process-timeout']);
+        $command = 'avanzu:admin:fetch-vendor';
+        
+        if ($options['fetch-theme-vendors-as-root']) {
+            $command .= ' --root';
+        }
+
+        static::executeCommand($event, $consoleDir, $command, $options['process-timeout']);
     }
 
     /**
